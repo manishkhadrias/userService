@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,8 @@ public class UserServiceImpl implements UserService {
 
 	private static final String DEFAULT_ENV_INSTANCE_GUID = "UNKNOWN";
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+
 	@Autowired
 	UserRepository userRepository;
 
@@ -33,13 +37,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void save(User user) {
-		user.setHost(HOST_NAME);
-		userRepository.save(user);
+	public User save(User user) {
+		LOGGER.info("Received Request to save HOST_NAME {}. ", hostName);
+		user.setHost(hostName);
+		return userRepository.save(user);
 	}
 
 	@Override
 	public User findById(Integer id) {
+		LOGGER.info("Received Request to findById {}. ", id);
 		return userRepository.findById(id).get();
 	}
 

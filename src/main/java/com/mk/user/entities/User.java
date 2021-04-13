@@ -28,7 +28,7 @@ public class User {
 		this.host = host;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
