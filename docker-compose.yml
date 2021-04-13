@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  todo-web-application:
+    image: manishkhadria/user-api:0.0.2-SNAPSHOT
+    ports:
+      - "8100:8100"
+    restart: always
+    depends_on: # Start the depends_on first
+      - mysql 
+    environment:
+      DB_HOSTNAME: mysql
+      DB_PORT: 3306
+      DB_NAME: users
+      DB_USERNAME: user1
+      DB_PASSWORD: password
+
+  mysql:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password 
+      MYSQL_USER: user1
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: users
+    volumes:
+      - mysql-database-data-volume:/var/lib/mysql
+
+# Volumes
+volumes:
+  mysql-database-data-volume:

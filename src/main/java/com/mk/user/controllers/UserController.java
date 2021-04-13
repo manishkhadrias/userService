@@ -24,7 +24,7 @@ public class UserController {
 	}
 
 	@GetMapping("/{id}")
-	public User getByUserId(@PathVariable String id) {
+	public User getByUserId(@PathVariable int id) {
 
 		LOGGER.info("Received Request to getByUserId {}. ", id);
 
