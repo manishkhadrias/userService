@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  todo-web-application:
+  user-api:
     image: manishkhadria/user-api:0.0.2-SNAPSHOT
     ports:
       - "8100:8100"
