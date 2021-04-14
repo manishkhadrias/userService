@@ -31,19 +31,13 @@ public class UserController {
 		return "{healthy:true}";
 	}
 
-	@GetMapping("/{id}")
-	public User getByUserId(@PathVariable int id) {
-		LOGGER.info("Received Request to getByUserId {}. ", id);
-		return userService.findById(id);
-	}
-
 	@GetMapping("/users")
-	public List<User> list() {
+	public List<User> findAll() {
 		return userService.findAll();
 	}
 
 	@GetMapping("/users/{id}")
-	public ResponseEntity<User> get(@PathVariable Integer id) {
+	public ResponseEntity<User> findById(@PathVariable Integer id) {
 		try {
 			User user = userService.findById(id);
 			return new ResponseEntity<User>(user, HttpStatus.OK);
@@ -53,7 +47,7 @@ public class UserController {
 	}
 
 	@PostMapping("/users")
-	public ResponseEntity<User> add(@RequestBody User user) {
+	public ResponseEntity<User> save(@RequestBody User user) {
 		return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
 
 	}

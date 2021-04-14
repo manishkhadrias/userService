@@ -27,7 +27,6 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	UserRepository userRepository;
 
-	// @Value(${ENVIRONMENT_VARIABLE_NAME:DEFAULT_VALUE})
 	@Value("${" + HOST_NAME + ":" + DEFAULT_ENV_INSTANCE_GUID + "}")
 	private String hostName;
 

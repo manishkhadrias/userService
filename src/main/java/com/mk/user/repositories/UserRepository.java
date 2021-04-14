@@ -7,5 +7,4 @@ import com.mk.user.entities.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-//	List<User> findById(int id);
 }
