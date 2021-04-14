@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: user-api
+  name: user-api
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: user-api
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: user-api
+    spec:
+      containers:
+      - image: manishkhadria/user-api:0.0.2-SNAPSHOT
+        imagePullPolicy: IfNotPresent
+        name: user-api
+        env:
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: DB_NAME
+              name: user-api-config
+        - name: DB_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              key: DB_HOSTNAME
+              name: user-api-config
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: DB_PASSWORD
+              name: user-api-secrets
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: DB_PORT
+              name: user-api-config
+        - name: DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              key: DB_USERNAME
+              name: user-api-config
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-api
+  namespace: default
+  labels:
+    app: user-api
+spec:
+  ports:
+  - protocol: TCP
+    port: 8100
+    targetPort: 8100
+  selector:
+    app: user-api
+#  type: ClusterIP
+  type: LoadBalancer

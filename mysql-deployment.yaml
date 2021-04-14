@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mysql
+  name: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - env:
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              key: DB_NAME
+              name: user-api-config
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: DB_PASSWORD
+              name: user-api-secrets
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: DB_PASSWORD
+              name: user-api-secrets
+        - name: MYSQL_USER
+          valueFrom:
+            configMapKeyRef:
+              key: DB_USERNAME
+              name: user-api-config
+        image: mysql:5.7
+        args:
+          - --ignore-db-dir=lost+found #CHANGE
+        name: mysql
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mysql-volume
+      restartPolicy: Always
+      volumes:
+      - name: mysql-volume
+        persistentVolumeClaim:
+          claimName: mysql-persistent-volume-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mysql
+  name: mysql
+  namespace: default
+spec:
+  type: ClusterIP
+  ports:
+  - name: "3306"
+    port: 3306
+    targetPort: 3306
+  selector:
+    app: mysql
