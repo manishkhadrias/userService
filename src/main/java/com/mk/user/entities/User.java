@@ -10,10 +10,10 @@ public class User {
 	@Id
 	@GeneratedValue
 	private Integer id;
-	String name;
-	String age;
-	String email;
-	String host;
+	private String name;
+	private String age;
+	private String email;
+	private String host;
 
 	public User() {
 		super();
