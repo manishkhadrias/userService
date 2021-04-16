@@ -53,7 +53,7 @@ spec:
         - name: JAEGER_HOSTNAME
           value: http://jaeger-allinone
         - name: JAEGER_PORT
-          value: 6831
+          value: "6831"
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
 ---
