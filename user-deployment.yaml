@@ -51,7 +51,7 @@ spec:
               key: DB_USERNAME
               name: user-api-config
         - name: JAEGER_HOSTNAME
-          value: http://jaeger-allinone
+          value: jaeger-agent
         - name: JAEGER_PORT
           value: "6831"
       restartPolicy: Always
