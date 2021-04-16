@@ -21,7 +21,7 @@ spec:
         app: user-api
     spec:
       containers:
-      - image: manishkhadria/user-api:0.0.2-SNAPSHOT
+      - image: manishkhadria/user-api:0.0.3-SNAPSHOT
         imagePullPolicy: IfNotPresent
         name: user-api
         env:
@@ -50,6 +50,10 @@ spec:
             configMapKeyRef:
               key: DB_USERNAME
               name: user-api-config
+        - name: JAEGER_HOSTNAME
+          value: http://jaeger-allinone
+        - name: JAEGER_PORT
+          value: 6831
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
 ---
